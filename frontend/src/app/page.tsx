@@ -189,7 +189,7 @@ export default function Home() {
           </div>
           <div className="flex gap-1.5 flex-shrink-0">
             <a
-              href="https://testnet.opbnbscan.com/address/0x37E04515eD142A824c853CC74a76Cb9E0119CfFe"
+              href="https://testnet.opbnbscan.com/address/0xb76bd37757b00792ad7f7778731190db5f2401c7"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/80 border border-amber-500/15 hover:bg-amber-500/20 transition-colors"
@@ -197,7 +197,7 @@ export default function Home() {
               opBNB
             </a>
             <a
-              href="https://testnet.bscscan.com/address/0x8721504d22ca89277D8Bd70B9260B55FCB7F2d1C"
+              href="https://testnet.bscscan.com/address/0x665ca9f1471d43759814f5faa0196dd747160458"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono px-1.5 py-0.5 rounded bg-zinc-500/10 text-zinc-300/80 border border-zinc-500/15 hover:bg-zinc-500/20 transition-colors"

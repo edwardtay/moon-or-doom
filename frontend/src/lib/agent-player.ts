@@ -18,9 +18,15 @@ import {
  * 5. Bets are placed ON-CHAIN with real tBNB from the agent's own wallet
  */
 
-// Use real wallet address derived from AGENT_PRIVATE_KEY, fallback to placeholder
-const AGENT_ADDRESS =
-  getAgentWalletAddress() || "0xAI00000000000000000000000000000000000001";
+// Lazily resolved — can't call privateKeyToAccount at module load (breaks SSG)
+let _resolvedAddress: string | null = null;
+function AGENT_ADDRESS(): string {
+  if (!_resolvedAddress) {
+    _resolvedAddress =
+      getAgentWalletAddress() || "0xAI00000000000000000000000000000000000001";
+  }
+  return _resolvedAddress;
+}
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // Agent tools — what Claude can call
@@ -119,7 +125,7 @@ const state: AgentState = {
 };
 
 export function getAgentAddress(): string {
-  return AGENT_ADDRESS;
+  return AGENT_ADDRESS();
 }
 
 export function getAgentState(): AgentState {
@@ -397,7 +403,7 @@ function executeBet(args: {
 
   state.targetCashOut = targetCashOut;
 
-  const success = gameEngine.placeBet(AGENT_ADDRESS, betAmount, true);
+  const success = gameEngine.placeBet(AGENT_ADDRESS(), betAmount, true);
   if (success) {
     state.currentBet = betAmount;
     state.balance -= betAmount;
@@ -475,7 +481,7 @@ function runFallback() {
 
   bet = Math.round(bet * 10000) / 10000;
   state.targetCashOut = target;
-  const success = gameEngine.placeBet(AGENT_ADDRESS, bet, true);
+  const success = gameEngine.placeBet(AGENT_ADDRESS(), bet, true);
   if (success) {
     state.currentBet = bet;
     state.balance -= bet;
@@ -528,7 +534,7 @@ function handleMultiplierTick(currentMultiplier: number) {
   const adjustedTarget = state.targetCashOut + jitter;
 
   if (currentMultiplier >= adjustedTarget) {
-    const result = gameEngine.cashOut(AGENT_ADDRESS);
+    const result = gameEngine.cashOut(AGENT_ADDRESS());
     if (result) {
       state.balance += state.currentBet + result.profit;
       state.totalProfit += result.profit;
