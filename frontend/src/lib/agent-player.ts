@@ -1,5 +1,11 @@
 import { gameEngine } from "./game-engine";
 import type { GameEvent } from "./game-engine";
+import {
+  getAgentWalletAddress,
+  agentOnChainBet,
+  agentClaimWinnings,
+  isAgentChainEnabled,
+} from "./agent-chain";
 
 /**
  * AI Agent Player — plays the crash game using Claude with TOOL USE.
@@ -9,9 +15,12 @@ import type { GameEvent } from "./game-engine";
  * 2. Claude calls tools to gather data, analyze, then decide
  * 3. Multi-step reasoning is streamed to players in real-time
  * 4. All decisions are made by Claude, not hardcoded logic
+ * 5. Bets are placed ON-CHAIN with real tBNB from the agent's own wallet
  */
 
-const AGENT_ADDRESS = "0xAI00000000000000000000000000000000000001";
+// Use real wallet address derived from AGENT_PRIVATE_KEY, fallback to placeholder
+const AGENT_ADDRESS =
+  getAgentWalletAddress() || "0xAI00000000000000000000000000000000000001";
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // Agent tools — what Claude can call
@@ -395,6 +404,11 @@ function executeBet(args: {
     setThinking(
       `${reasoning} [Bet ${betAmount.toFixed(4)} BNB, target ${(targetCashOut / 100).toFixed(2)}x]`
     );
+
+    // Fire on-chain bet with real tBNB (fire-and-forget)
+    if (isAgentChainEnabled()) {
+      agentOnChainBet(betAmount).catch(() => {});
+    }
   } else {
     setThinking(`${reasoning} (Bet failed — round may have started)`);
   }
@@ -469,6 +483,11 @@ function runFallback() {
       state.thinking +
         ` [Bet ${bet.toFixed(4)} BNB, target ${(target / 100).toFixed(2)}x]`
     );
+
+    // Fire on-chain bet with real tBNB (fire-and-forget)
+    if (isAgentChainEnabled()) {
+      agentOnChainBet(bet).catch(() => {});
+    }
   }
 }
 
@@ -532,14 +551,22 @@ function handleCrashed(crashPoint: number) {
   state.lastCrashPoints.unshift(crashPoint);
   if (state.lastCrashPoints.length > 20) state.lastCrashPoints.pop();
 
+  const roundId = gameEngine.getState().roundId;
+
   if (state.currentBet !== null) {
     state.roundsPlayed++;
     if (state.targetCashOut !== null) {
+      // Agent didn't cash out — lost
       state.losses++;
       state.totalProfit -= state.currentBet;
       setThinking(
         `Busted at ${(crashPoint / 100).toFixed(2)}x. Lost ${state.currentBet.toFixed(4)} BNB`
       );
+    } else {
+      // Agent cashed out — claim winnings on-chain
+      if (isAgentChainEnabled() && roundId > 0) {
+        agentClaimWinnings(roundId).catch(() => {});
+      }
     }
   }
 
