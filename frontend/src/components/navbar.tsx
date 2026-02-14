@@ -56,7 +56,7 @@ export function Navbar({ connected, roundId, bnbPrice, onToggleSound }: NavbarPr
         <Link href="/" className="flex items-center gap-2">
           <MoonLogo />
           <span className="text-sm font-black tracking-tight text-white">
-            Moon or Doom
+            MnM
           </span>
         </Link>
         <div className="flex items-center gap-2 text-xs text-zinc-300">

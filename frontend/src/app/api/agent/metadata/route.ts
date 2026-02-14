@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const metadata = {
     type: "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
-    name: "Moon or Doom AI Agent",
+    name: "MnM (Moon n Moon) AI Agent",
     description:
       "Autonomous AI crash game player powered by Claude. Competes against human players by analyzing crash history patterns and making real-time bet/cash-out decisions. All reasoning is visible to players in real-time.",
     image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2309090b' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='60' font-size='50' text-anchor='middle'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E",

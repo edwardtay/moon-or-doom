@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * SVG Mascots for Moon or Doom
+ * SVG Mascots for MnM (Moon n Moon)
  *
  * Three characters:
  * 1. Astronaut — Human player (Moon side)

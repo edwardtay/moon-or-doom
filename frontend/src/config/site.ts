@@ -1,4 +1,4 @@
 export const siteConfig = {
-  name: "Moon or Doom",
+  name: "MnM (Moon n Moon)",
   description: "Predict the crash. Cash out or get rekt.",
 } as const;
