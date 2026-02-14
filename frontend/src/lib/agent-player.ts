@@ -482,26 +482,24 @@ function runFallback() {
   bet = Math.round(bet * 10000) / 10000;
   state.targetCashOut = target;
   const addr = AGENT_ADDRESS();
-  const phase = gameEngine.getState().phase;
-  const existingBets = gameEngine.getState().bets.length;
-  const alreadyBet = gameEngine.getState().bets.some((b: { address: string }) => b.address === addr);
-  console.log(`[agent] placeBet: addr=${addr.slice(0,10)}, phase=${phase}, bets=${existingBets}, dup=${alreadyBet}`);
+  // DEBUG v4: embed phase in thinking to verify on Vercel
+  const debugPhase = gameEngine.getState().phase;
+  const debugBets = gameEngine.getState().bets.length;
+  setThinking(state.thinking + ` [p=${debugPhase},b=${debugBets}]`);
   const success = gameEngine.placeBet(addr, bet, true);
-  if (!success) {
-    setThinking(state.thinking + ` [FAILED: phase=${phase}, bets=${existingBets}, dup=${alreadyBet}]`);
-  }
   if (success) {
     state.currentBet = bet;
     state.balance -= bet;
     setThinking(
-      state.thinking +
-        ` [Bet ${bet.toFixed(4)} BNB, target ${(target / 100).toFixed(2)}x]`
+      `Betting ${bet.toFixed(3)} BNB @ ${(target / 100).toFixed(2)}x`
     );
 
     // Fire on-chain bet with real tBNB (fire-and-forget)
     if (isAgentChainEnabled()) {
       agentOnChainBet(bet).catch(() => {});
     }
+  } else {
+    setThinking(state.thinking + ` MISS:${debugPhase}`);
   }
 }
 
