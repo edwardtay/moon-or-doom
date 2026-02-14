@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback, memo } from "react";
 import type { RoundPhase } from "@/hooks/use-game-stream";
-import { DoomSkullMascot, RocketMascot } from "./mascots";
+import { AstronautMascot, AIEyeMascot, DoomSkullMascot, RocketMascot } from "./mascots";
 
 interface CrashDisplayProps {
   phase: RoundPhase;
@@ -427,6 +427,7 @@ function CrashDisplayInner({
       {/* Waiting state */}
       {phase === "waiting" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+          <AIEyeMascot size={48} className="mb-3 opacity-60" />
           <div className="text-6xl font-mono font-black text-zinc-300 tabular-nums mb-2">
             {countdown > 0 ? countdown : "..."}
           </div>
@@ -439,6 +440,7 @@ function CrashDisplayInner({
       {/* Betting state */}
       {phase === "betting" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+          <AstronautMascot size={64} className="mb-3" />
           <div className="relative">
             <div
               className="absolute inset-0 rounded-full blur-2xl opacity-20"

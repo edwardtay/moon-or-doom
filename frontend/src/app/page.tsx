@@ -89,6 +89,79 @@ export default function Home() {
             />
 
             <Leaderboard bets={state.bets} phase={state.phase} toUsd={toUsd} />
+
+            {/* Game stats — fills sidebar gap */}
+            <div
+              className="rounded-xl px-3 py-2.5 space-y-2"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">
+                Session Stats
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {[
+                  { label: "Rounds", value: history.length.toString(), color: "#d4d4d8" },
+                  {
+                    label: "Avg Crash",
+                    value: history.length > 0
+                      ? `${(history.reduce((s, r) => s + r.crashPoint, 0) / history.length / 100).toFixed(1)}x`
+                      : "—",
+                    color: "#facc15",
+                  },
+                  {
+                    label: "Max",
+                    value: history.length > 0
+                      ? `${(Math.max(...history.map((r) => r.crashPoint)) / 100).toFixed(1)}x`
+                      : "—",
+                    color: "#e879f9",
+                  },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="text-center py-1.5 rounded-lg"
+                    style={{ background: "rgba(255,255,255,0.03)" }}
+                  >
+                    <div className="text-sm font-bold font-mono" style={{ color: stat.color }}>
+                      {stat.value}
+                    </div>
+                    <div className="text-xs text-zinc-500">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Human vs AI scoreboard */}
+            <div
+              className="rounded-xl px-3 py-2.5"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div className="text-xs font-semibold text-zinc-200 uppercase tracking-wider mb-2">
+                Human vs AI
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex-1 text-center py-2 rounded-lg" style={{ background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.15)" }}>
+                  <div className="text-xs text-blue-400 font-semibold mb-0.5">You</div>
+                  <div className="text-lg font-black text-blue-300 font-mono leading-none">
+                    {state.bets.filter((b) => !b.isAgent && b.cashOutMultiplier).length}
+                  </div>
+                  <div className="text-xs text-zinc-500">wins</div>
+                </div>
+                <div className="text-xs text-zinc-600 font-bold">VS</div>
+                <div className="flex-1 text-center py-2 rounded-lg" style={{ background: "rgba(168,85,247,0.08)", border: "1px solid rgba(168,85,247,0.15)" }}>
+                  <div className="text-xs text-purple-400 font-semibold mb-0.5">Claude</div>
+                  <div className="text-lg font-black text-purple-300 font-mono leading-none">
+                    {state.bets.filter((b) => b.isAgent && b.cashOutMultiplier).length}
+                  </div>
+                  <div className="text-xs text-zinc-500">wins</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
