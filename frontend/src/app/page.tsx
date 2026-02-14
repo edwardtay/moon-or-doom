@@ -25,13 +25,12 @@ export default function Home() {
         bnbPrice={bnbPrice}
       />
 
-      <main className="flex-1 flex flex-col max-w-7xl mx-auto w-full px-3 py-3 gap-2.5">
-        {/* Round history — thin strip */}
+      <main className="flex-1 flex flex-col max-w-6xl mx-auto w-full px-3 py-2 gap-2">
+        {/* Round history */}
         <RoundHistoryBar history={history} />
 
-        {/* Main game grid — everything above the fold */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-          {/* Left: Crash display */}
+        {/* Main game grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2.5">
           <div className="lg:col-span-8">
             <CrashDisplay
               phase={state.phase}
@@ -43,8 +42,7 @@ export default function Home() {
             />
           </div>
 
-          {/* Right sidebar: everything stacked tight */}
-          <div className="lg:col-span-4 flex flex-col gap-2.5">
+          <div className="lg:col-span-4 flex flex-col gap-2">
             <BetPanel
               phase={state.phase}
               bets={state.bets}
@@ -67,31 +65,31 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Provably fair — collapsed footer */}
+        {/* Provably fair footer */}
         <div
-          className="flex items-center justify-between px-4 py-2.5 rounded-xl text-[10px]"
+          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs"
           style={{
             background: "rgba(255,255,255,0.02)",
             border: "1px solid rgba(255,255,255,0.04)",
           }}
         >
-          <div className="flex items-center gap-3 text-zinc-500">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="flex items-center gap-2 text-zinc-400">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
             <span>Provably fair — commit-reveal on-chain</span>
             {state.commitHash && (
-              <span className="font-mono text-zinc-600 hidden sm:inline">
+              <span className="font-mono text-zinc-500 hidden sm:inline">
                 {state.commitHash.slice(0, 10)}...
               </span>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             <a
               href="https://testnet.opbnbscan.com/address/0x37E04515eD142A824c853CC74a76Cb9E0119CfFe"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono px-1.5 py-0.5 rounded bg-amber-500/8 text-amber-500/60 border border-amber-500/10 hover:bg-amber-500/15 transition-colors"
+              className="font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/80 border border-amber-500/15 hover:bg-amber-500/20 transition-colors"
             >
               opBNB
             </a>
@@ -99,7 +97,7 @@ export default function Home() {
               href="https://testnet.bscscan.com/address/0x8721504d22ca89277D8Bd70B9260B55FCB7F2d1C"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono px-1.5 py-0.5 rounded bg-zinc-500/8 text-zinc-500/60 border border-zinc-500/10 hover:bg-zinc-500/15 transition-colors"
+              className="font-mono px-1.5 py-0.5 rounded bg-zinc-500/10 text-zinc-300/80 border border-zinc-500/15 hover:bg-zinc-500/20 transition-colors"
             >
               BSC
             </a>

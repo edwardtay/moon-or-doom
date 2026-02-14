@@ -117,7 +117,7 @@ function CrashDisplayInner({
       ctx.lineWidth = 1;
       const ySteps = getYSteps(maxM);
       ctx.font = "10px monospace";
-      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
       ctx.textAlign = "right";
       for (const step of ySteps) {
         const y = mapY(step);
@@ -356,7 +356,7 @@ function CrashDisplayInner({
           {phase === "crashed" && (
             <div className="flex flex-col items-center mb-2">
               <DoomSkullMascot size={36} />
-              <div className="text-[10px] font-bold text-red-500/80 uppercase tracking-[0.4em] mt-1">
+              <div className="text-xs font-bold text-red-400 uppercase tracking-[0.4em] mt-1">
                 Crashed
               </div>
             </div>
@@ -381,7 +381,7 @@ function CrashDisplayInner({
               : `${(serverMultiplier / 100).toFixed(2)}x`}
           </div>
           {phase === "active" && (
-            <div className="text-[10px] text-zinc-300 font-mono mt-2 opacity-60">
+            <div className="text-xs text-zinc-300 font-mono mt-2">
               LIVE
             </div>
           )}
@@ -471,7 +471,7 @@ function CrashDisplayInner({
       {/* Phase pill */}
       <div className="absolute top-3 left-3 z-20">
         <div
-          className="text-[9px] font-bold uppercase tracking-[0.2em] px-2.5 py-1 rounded-full flex items-center gap-1.5"
+          className="text-[10px] font-bold uppercase tracking-[0.2em] px-2.5 py-1 rounded-full flex items-center gap-1.5"
           style={{
             background:
               phase === "active"
@@ -488,7 +488,7 @@ function CrashDisplayInner({
                   ? "#ff4444"
                   : phase === "betting"
                     ? "#00ff88"
-                    : "#555",
+                    : "#a1a1aa",
             border: `1px solid ${
               phase === "active"
                 ? `rgba(${color.glow},0.25)`
@@ -530,7 +530,7 @@ function CrashDisplayInner({
 
       {/* Round # */}
       {roundId > 0 && (
-        <div className="absolute top-3 right-3 z-20 text-[10px] text-zinc-400 font-mono">
+        <div className="absolute top-3 right-3 z-20 text-xs text-zinc-300 font-mono">
           #{roundId}
         </div>
       )}

@@ -78,22 +78,22 @@ export function AgentStrip({
   };
 
   const statusColor = () => {
-    if (!agentBet) return "#71717a";
+    if (!agentBet) return "#a1a1aa";
     if (agentBet.cashOutMultiplier) return "#34d399";
     if (phase === "crashed" && !agentBet.cashOutMultiplier) return "#f87171";
     if (phase === "active") return "#facc15";
-    return "#a1a1aa";
+    return "#d4d4d8";
   };
 
   return (
     <div
       className="rounded-xl px-3 py-2.5"
       style={{
-        background: "rgba(168,85,247,0.04)",
-        border: "1px solid rgba(168,85,247,0.1)",
+        background: "rgba(168,85,247,0.05)",
+        border: "1px solid rgba(168,85,247,0.12)",
       }}
     >
-      {/* Main row: AI status */}
+      {/* Main row */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
@@ -103,7 +103,7 @@ export function AgentStrip({
               boxShadow: `0 0 6px ${statusColor()}`,
             }}
           />
-          <span className="text-[10px] font-bold text-purple-400/80 uppercase tracking-wider">
+          <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">
             Claude
           </span>
           <span
@@ -113,13 +113,13 @@ export function AgentStrip({
             {statusText()}
           </span>
           {agentBet && (
-            <span className="text-[10px] text-zinc-500 font-mono flex-shrink-0">
+            <span className="text-xs text-zinc-400 font-mono flex-shrink-0">
               {agentBet.amount.toFixed(3)}
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0 text-[10px] font-mono">
-          <span className="text-zinc-500">
+        <div className="flex items-center gap-2 flex-shrink-0 text-xs font-mono">
+          <span className="text-zinc-400">
             {record.wins}W {record.losses}L
           </span>
           {(record.wins > 0 || record.losses > 0) && (
@@ -134,9 +134,9 @@ export function AgentStrip({
         </div>
       </div>
 
-      {/* AI thinking — single line */}
+      {/* Thinking */}
       {thinking && (
-        <p className="text-[10px] text-zinc-500 italic mt-1.5 truncate leading-tight">
+        <p className="text-xs text-zinc-400 italic mt-1.5 truncate leading-tight">
           &ldquo;{thinking}&rdquo;
         </p>
       )}
